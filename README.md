@@ -8,9 +8,7 @@
 
 - Ansible Installed >v2.4.
 - Store the .pem key file of the target server in the Ansible server where you execute the playbook.
-- Create inventory.ini file with the following:
--   [node1]
--   (public dns) ansible_ssh_user=(target user)
+- Update inventory.ini file with the target hosts you want to install.  
 - create a bucket in AWS S3 using a new IAM user with S3 privileges. 
 - update group_vars/tomcat-servers with your local parameters.
 
