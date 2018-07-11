@@ -1,0 +1,22 @@
+---
+- name: update all packages for s3fs
+  yum: name=automake,fuse,fuse-devel,gcc-c++,git,libcurl-devel,libxml2-devel,make,openssl-devel state=latest
+
+- name: git clone s3fs
+  git: repo=https://github.com/s3fs-fuse/s3fs-fuse.git dest=/home/ec2-user/s3fs
+
+- name: install s3fs
+  shell: cd /home/ec2-user/s3fs/ ; sudo ./autogen.sh; sudo ./configure --prefix=/usr --with-openssl ; sudo make ; sudo make install
+
+- name: update s3fs configuration with AWS access and security key
+  template: src=passwd-s3fs dest=/etc/passwd-s3fs mode=0640
+
+- name: create local FS
+  file: path=/{{ MY_S3_BUCKET }} state=directory
+
+- name: mount new FS to AWS s3 bucket
+  shell: /usr/bin/s3fs {{ S3_BUCKET }} -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 -o nonempty /{{ MY_S3_BUCKET }} 
+
+- name: Change ownership of /{{ S3_BUCKET }}
+  file: path=/{{ S3_BUCKET }} owner=tomcat group=tomcat state=directory recurse=yes mode=0755
+

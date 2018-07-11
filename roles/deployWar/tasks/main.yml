@@ -1,0 +1,9 @@
+---
+- name: Download WAR to server
+  get_url: url=https://updates.jenkins-ci.org/download/war/2.131/jenkins.war  dest=/usr/share/tomcat/webapps/jenkins.war
+
+- name: Change ownership of war file
+  file: path=/usr/share/tomcat/webapps/ owner=tomcat group=tomcat state=directory recurse=yes
+
+- name: Restart Tomcat
+  service: name=tomcat state=restarted 

@@ -1,0 +1,16 @@
+# Here are variables related to the Tomcat installation
+
+http_port: 
+https_port: 
+
+# This will configure a default manager-gui user:
+
+admin_username: 
+admin_password: 
+
+# This will configure for mount jenkins home to s3 bucket
+
+MY_S3_BUCKET: 
+S3_BUCKET: 
+S3_ACCESS_KEY:  
+S3_SECRET_KEY: 
